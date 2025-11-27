@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete My Data - WWMA App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            line-height: 1.6;
+            color: #334155;
+        }
+
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 480px;
+            width: 100%;
+        }
+
+        .icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+        }
+
+        .icon svg {
+            width: 32px;
+            height: 32px;
+            fill: white;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1e293b;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .description {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 32px;
+            font-size: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            color: #475569;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        input[type="email"] {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            outline: none;
+        }
+
+        input[type="email"]:focus {
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+        }
+
+        input[type="email"]::placeholder {
+            color: #94a3b8;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px 24px;
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px -4px rgba(124, 58, 237, 0.4);
+        }
+
+        .submit-btn:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .submit-btn .spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .success-icon {
+            width: 72px;
+            height: 72px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+        }
+
+        .success-icon svg {
+            width: 36px;
+            height: 36px;
+            fill: white;
+        }
+
+        .success-message h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 12px;
+        }
+
+        .success-message p {
+            color: #64748b;
+            font-size: 15px;
+        }
+
+        .privacy-note {
+            text-align: center;
+            font-size: 13px;
+            color: #94a3b8;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .privacy-note a {
+            color: #8b5cf6;
+            text-decoration: none;
+        }
+
+        .privacy-note a:hover {
+            text-decoration: underline;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 28px 24px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .description {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Delete Request Form -->
+        <div id="form-section">
+            <div class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                </svg>
+            </div>
+            <h1>Delete My Data</h1>
+            <p class="description">
+                Request permanent deletion of all your personal data from our systems. 
+                This action cannot be undone.
+            </p>
+
+            <form id="delete-form" novalidate>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        placeholder="Enter your email address"
+                        required
+                        autocomplete="email"
+                    >
+                </div>
+
+                <button type="submit" class="submit-btn" id="submit-btn">
+                    Delete My Data
+                </button>
+            </form>
+
+            <p class="privacy-note">
+                Your request will be processed in accordance with 
+                GDPR and CCPA regulations. 
+                <a href="index.html">View our Privacy Policy</a>
+            </p>
+        </div>
+
+        <!-- Success Message -->
+        <div id="success-section" class="success-message">
+            <div class="success-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                </svg>
+            </div>
+            <h2>Request Received</h2>
+            <p>
+                We've received your data deletion request. 
+                You'll receive a confirmation email shortly. 
+                Your data will be permanently deleted within 30 days.
+            </p>
+            <p class="privacy-note">
+                If you have any questions, please contact us at 
+                <a href="mailto:Info@lfcww.org">Info@lfcww.org</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const form = document.getElementById('delete-form');
+            const submitBtn = document.getElementById('submit-btn');
+            const formSection = document.getElementById('form-section');
+            const successSection = document.getElementById('success-section');
+            const emailInput = document.getElementById('email');
+
+            function validateEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+
+            function showLoading() {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<span class="spinner"></span>Processing...';
+            }
+
+            function showSuccess() {
+                formSection.classList.add('hidden');
+                successSection.classList.add('show');
+            }
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const email = emailInput.value.trim();
+
+                if (!email) {
+                    emailInput.focus();
+                    return;
+                }
+
+                if (!validateEmail(email)) {
+                    emailInput.focus();
+                    return;
+                }
+
+                showLoading();
+
+                // TODO: Replace with actual API call to backend data deletion endpoint
+                // Example: fetch('/api/delete-request', { method: 'POST', body: JSON.stringify({ email }) })
+                // For now, simulating processing delay for frontend demonstration
+                setTimeout(function() {
+                    showSuccess();
+                }, 1500);
+            });
+
+            // Add visual feedback for invalid email on blur
+            emailInput.addEventListener('blur', function() {
+                const email = this.value.trim();
+                if (email && !validateEmail(email)) {
+                    this.style.borderColor = '#ef4444';
+                } else {
+                    this.style.borderColor = '';
+                }
+            });
+
+            // Reset border color on input
+            emailInput.addEventListener('input', function() {
+                this.style.borderColor = '';
+            });
+        })();
+    </script>
+</body>
+</html>
